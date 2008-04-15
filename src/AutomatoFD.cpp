@@ -6,10 +6,16 @@
 #include <string>
 
 #include "./../includes/AutomatoFD.h"
+#include "./../includes/ErrosExecucao.h"
+#include "./../includes/LogErros.h"
 #include "./../includes/StructToken.h"
 #include "./../includes/TabelaSimbolos.h"
 
 
+
+/**********************
+ *  Métodos Publicos  *
+ **********************/
 
 AutomatoFD::AutomatoFD( std::list<std::string> codigoFonte )
 {
@@ -19,9 +25,21 @@ AutomatoFD::AutomatoFD( std::list<std::string> codigoFonte )
 	this->estadoS( );
 }
 
+
+
+/**********************
+ * Métodos Protegidos *
+ **********************/
+
 AutomatoFD::~AutomatoFD( )
 {
 }
+
+
+
+/**********************
+ *  Métodos Privados  *
+ **********************/
 
 const std::map<int, StructToken>
 AutomatoFD::getSaidaAutomato( )
@@ -42,7 +60,7 @@ AutomatoFD::validaCaractereREGEX( char* stringExpressaoRegular, const char* linh
 	int
 	status;
 
-	if ( regcomp(&expressaoRegular, stringExpressaoRegular, REG_EXTENDED|REG_ICASE|REG_NOSUB) )	throw ( erroExpressaoRegular );
+	if ( regcomp(&expressaoRegular, stringExpressaoRegular, REG_EXTENDED|REG_ICASE|REG_NOSUB) )	throw ( new ErrosExecucao(erroExpressaoRegular) );
 	status = regexec(&expressaoRegular, linhaCodigo, 0, (regmatch_t *)NULL, 0);
 	regfree( &expressaoRegular );
 	
@@ -56,6 +74,7 @@ AutomatoFD::adicionaCaractereToken( )
 	{
 		this->codigoPascal.pop_front( );
 		this->numeroLinha++;
+		this->adicionaTokenArrayAssociativo( );
 	}
 	else
 	{
@@ -66,6 +85,7 @@ AutomatoFD::adicionaCaractereToken( )
 		{
 			this->codigoPascal.pop_front( );
 			this->numeroLinha++;
+			this->adicionaTokenArrayAssociativo( );
 		}
 	}
 }
@@ -92,27 +112,17 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 	this->token.clear();
 }
 
-void
-AutomatoFD::adicionaTokenArrayAssociativo( std::string classificacao )
-{
-	StructToken
-	bufferToken;
-	
-	bufferToken.token = this->token;
 
-	bufferToken.classificacao = classificacao;
 
-	bufferToken.linha = this->numeroLinha;
-	bufferToken.coluna = 0;
-	
-	std::cout << bufferToken.token << " - " << bufferToken.classificacao << std::endl;
+/*********************************************
+ *											 *
+ *  				Estados  				 *
+ *					  do					 *
+ *					Automato 				 *
+ * 											 *
+ *********************************************/
 
-	tokensClassificados.insert ( std::pair<const int, const StructToken> (this->numeroToken, bufferToken) );
 
-	++this->numeroToken;
-
-	this->token.clear();
-}
 
 void
 AutomatoFD::estadoS()
@@ -186,15 +196,13 @@ AutomatoFD::estadoS()
 											}
 											else
 											{
-												if ( this->validaCaractereREGEX("^[ ]", (*this->codigoPascal.begin()).c_str(), "ESPACO_BRANCO") )
+												if ( this->validaCaractereREGEX("^[ |	]", (*this->codigoPascal.begin()).c_str(), "ESPACO_BRANCO") )
 												{
 													*this->codigoPascal.begin( ) = (*this->codigoPascal.begin()).substr(1);
 												}
 												else
 												{
-													std::cout << "Linha " << this->numeroLinha << "	* Erro 0 - Caractere inválido" << std::endl;
-													this->adicionaCaractereToken();
-													this->adicionaTokenArrayAssociativo( "CARACTERE_INVALIDO" );
+
 												}
 											}
 										}
@@ -206,9 +214,9 @@ AutomatoFD::estadoS()
 				}
 			}
 		}
-		catch ( std::string erro )
+		catch ( ErrosExecucao* erro )
 		{
-			std::cout << erro << std::endl;
+			std::cout << erro->getErro( ) << std::endl;
 		}
 	}
 }
@@ -217,247 +225,94 @@ void
 AutomatoFD::estadoA( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^([A-Z]|[0-9]|_)", (*this->codigoPascal.begin()).c_str(), "AA") )
-		{
-			this->estadoA( );
-		}
-		else
-		{
-			this->adicionaTokenArrayAssociativo( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoB( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( );
 }
 
 void
 AutomatoFD::estadoC( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^(>|=)", (*this->codigoPascal.begin()).c_str(), "CJ") )
-		{
-			this->estadoJ( );
-		}
-		else
-		{
-			this->adicionaTokenArrayAssociativo( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoD( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^=", (*this->codigoPascal.begin()).c_str(), "DK") )
-		{
-			this->estadoK( );
-		}
-		else
-		{
-			this->adicionaTokenArrayAssociativo( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoE( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^[^}]", (*this->codigoPascal.begin()).c_str(), "EE") )
-		{
-			this->estadoE( );
-		}
-		else if ( this->validaCaractereREGEX("^[}]", (*this->codigoPascal.begin()).c_str(), "EL") )
-		{
-			this->estadoL( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoF( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^[*]", (*this->codigoPascal.begin()).c_str(), "FM") )
-		{
-			this->estadoM( );
-		}
-		else
-		{
-			this->adicionaTokenArrayAssociativo( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoG( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( );
 }
 
 void
 AutomatoFD::estadoH( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^[0-9]", (*this->codigoPascal.begin()).c_str(), "HH") )
-		{
-			this->estadoH( );
-		}
-		else
-		{
-			std::cout << "Linha " << this->numeroLinha << "	* Erro 0 - Caractere inválido" << std::endl;
-			this->adicionaCaractereToken();
-			this->adicionaTokenArrayAssociativo( "CARACTERE_INVALIDO" );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoI( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^[=]", (*this->codigoPascal.begin()).c_str(), "IN") )
-		{
-			this->estadoN( );
-		}
-		else
-		{
-			this->adicionaTokenArrayAssociativo( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoJ( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( );
 }
 
 void
 AutomatoFD::estadoK( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( );
 }
 
 void
 AutomatoFD::estadoL( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( "COMENTARIO" );
 }
 
 void
 AutomatoFD::estadoM( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^[^*]", (*this->codigoPascal.begin()).c_str(), "MM") )
-		{
-			this->estadoM( );
-		}
-		else if ( this->validaCaractereREGEX("^[*]", (*this->codigoPascal.begin()).c_str(), "MO") )
-		{
-			this->estadoO( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoN( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( );
 }
 
 void
 AutomatoFD::estadoO( )
 {
 	this->adicionaCaractereToken( );
-
-	try
-	{
-		if ( this->validaCaractereREGEX("^[^\\)]", (*this->codigoPascal.begin()).c_str(), "MM") )
-		{
-			this->estadoM( );
-		}
-		else if ( this->validaCaractereREGEX("^[\\)]", (*this->codigoPascal.begin()).c_str(), "MO") )
-		{
-			this->estadoP( );
-		}
-	}
-	catch( std::string erro )
-	{
-		std::cout << erro << std::endl;
-	}
 }
 
 void
 AutomatoFD::estadoP( )
 {
 	this->adicionaCaractereToken( );
-	this->adicionaTokenArrayAssociativo( "COMENTARIO" );
 }

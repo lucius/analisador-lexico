@@ -1,3 +1,4 @@
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -44,8 +45,8 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 	std::string
 	linhaCodigo;
 
-	int
-	(*pf) (int) = tolower;
+	/*int
+	(*pf) (int) = tolower;*/
 
 	char
 	bufferCaractere;
@@ -63,12 +64,15 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 
 		if ( (bufferCaractere != '\n') && (!arquivoCodigo.eof()) )
 		{
-			linhaCodigo.push_back( bufferCaractere );
+			if ( bufferCaractere != '\t' )
+			{
+				linhaCodigo.push_back( bufferCaractere );
+			}
 		}
 		else
 		{
-			std::transform(linhaCodigo.begin( ), linhaCodigo.end( ), linhaCodigo.begin( ), pf);
-
+			/*std::transform(linhaCodigo.begin( ), linhaCodigo.end( ), linhaCodigo.begin( ), pf);*/
+			std::cout << linhaCodigo << std::endl;
 			this->codigoFonte.push_back( linhaCodigo );
 			linhaCodigo.clear( );
 		}

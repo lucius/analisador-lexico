@@ -44,10 +44,10 @@ class AutomatoFD
 		adicionaCaractereToken(	);
 
 		void
-		adicionaTokenArrayAssociativo( );
+		adicionaCaractereComentario( );
 
 		void
-		adicionaTokenArrayAssociativo( std::string );
+		adicionaTokenArrayAssociativo( );
 
 		void
 		estadoS( );
