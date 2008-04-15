@@ -1,0 +1,37 @@
+#ifndef ANALISADORLEXICO_H_
+#define ANALISADORLEXICO_H_
+
+#include <iostream>
+#include <list>
+#include <map>
+#include <string>
+
+#include "./AutomatoFD.h"
+#include "./StructToken.h"
+
+
+
+class AnalisadorLexico
+{
+	public:
+		AnalisadorLexico( const std::string );
+
+		~AnalisadorLexico( );
+
+	protected:
+
+	private:
+		AutomatoFD*
+		automato;
+
+		std::list<std::string>
+		codigoFonte;
+
+		std::map<int, StructToken>
+		saidaAnalisadorLexico;
+
+		void
+		carregaCodigo( const std::string );
+};
+
+#endif /*ANALISADORLEXICO_H_*/
