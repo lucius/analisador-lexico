@@ -9,7 +9,7 @@ int
 main(int argc, char* argv[])
 {
 	AnalisadorLexico
-	analisador ( "./data/codigo.pas" );
+	analisador ( argv[1], argv[2] );
 
 	LogErros::getInstancia( ).getLog( );
 	return (EXIT_SUCCESS);

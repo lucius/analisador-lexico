@@ -23,6 +23,7 @@ AutomatoFD::AutomatoFD( std::list<std::string> codigoFonte )
 
 	this->token.clear( );
 	this->numeroLinha = 1;
+	this->numeroToken = 1;
 
 	this->estadoS( );
 }
@@ -134,7 +135,6 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 		}
 	
 		bufferToken.linha = this->numeroLinha;
-		bufferToken.coluna = 0;
 		
 		//std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
 	
@@ -159,7 +159,6 @@ AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 		bufferToken.classificacao = _classificacao;
 	
 		bufferToken.linha = this->numeroLinha;
-		bufferToken.coluna = 0;
 		
 		//std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
 	

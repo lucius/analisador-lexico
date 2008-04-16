@@ -14,6 +14,8 @@
 class AnalisadorLexico
 {
 	public:
+		AnalisadorLexico( const std::string, const std::string );
+
 		AnalisadorLexico( const std::string );
 
 		~AnalisadorLexico( );
@@ -32,6 +34,12 @@ class AnalisadorLexico
 
 		void
 		carregaCodigo( const std::string );
+
+		void
+		salvaLog( const std::string );
+
+		void
+		ImprimeLog( );
 };
 
 #endif /*ANALISADORLEXICO_H_*/
