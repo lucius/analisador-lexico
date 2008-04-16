@@ -1,9 +1,11 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <regex.h>
 #include <string>
 
 #include "./../includes/AnalisadorLexico.h"
+#include "./../includes/ErrosExecucao.h"
 
 
 
@@ -17,9 +19,9 @@ AnalisadorLexico::AnalisadorLexico( const std::string caminho )
 	{
 		this->carregaCodigo( caminho );
 	}
-	catch ( std::string erro )
+	catch ( ErrosExecucao* erro )
 	{
-		std::cout << erro << std::endl;
+		std::cout << erro->getErro( ) << std::endl;
 		exit (1);
 	}
 	
@@ -45,14 +47,25 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 	std::string
 	linhaCodigo;
 
-	/*int
-	(*pf) (int) = tolower;*/
+	int
+	(*pf) (int) = tolower;
 
 	char
 	bufferCaractere;
 
+	regex_t
+	expressaoRegular;
+	
+	/* VERIFICA O FORMATO DO ARQUIVO */
+	if ( regcomp(&expressaoRegular, ".pas$", REG_EXTENDED|REG_ICASE|REG_NOSUB) )	throw ( new ErrosExecucao("A expressao regular nao pode ser alocada") );
+	
+	if ( regexec(&expressaoRegular, caminho.c_str(), 0, (regmatch_t *)NULL, 0) ) throw ( new ErrosExecucao("O formato do arquivo nao e valido...") );
+
+	regfree( &expressaoRegular );
+	
+	/* ABRE O CÓDIGO */
 	arquivoCodigo.open( caminho.c_str(), std::ifstream::in );
-	if ( arquivoCodigo.bad() ) throw ( "Fuma um cigarro! O arquivoCodigo nao pode ser aberto!! Sucesso;;" );
+	if ( arquivoCodigo.bad() ) throw ( new ErrosExecucao("O arquivo de codigo nao pode ser aberto!! Sucesso;;") );
 
 	arquivoCodigo.seekg ( 0, std::ios::beg );
 	
@@ -71,9 +84,10 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 		}
 		else
 		{
-			/*std::transform(linhaCodigo.begin( ), linhaCodigo.end( ), linhaCodigo.begin( ), pf);*/
-			std::cout << linhaCodigo << std::endl;
+			std::transform(linhaCodigo.begin( ), linhaCodigo.end( ), linhaCodigo.begin( ), pf);
+
 			this->codigoFonte.push_back( linhaCodigo );
+
 			linhaCodigo.clear( );
 		}
 	}
