@@ -37,8 +37,8 @@ class AutomatoFD
 		std::map<int,StructToken>
 		tokensClassificados;
 
-		int
-		validaCaractereREGEX( char*, const char*, std::string );
+		const unsigned short int
+		validaCaractereREGEX( const char*, const char*, std::string );
 
 		void
 		adicionaCaractereToken(	);
@@ -48,6 +48,9 @@ class AutomatoFD
 
 		void
 		adicionaTokenArrayAssociativo( );
+
+		void
+		adicionaTokenArrayAssociativo( const std::string );
 
 		void
 		estadoS( );

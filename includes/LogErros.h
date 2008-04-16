@@ -1,0 +1,33 @@
+#ifndef LOGERROS_H_
+#define LOGERROS_H_
+
+#include <iostream>
+#include <string>
+#include <queue>
+
+
+
+class LogErros
+{
+	public:
+		static LogErros&
+		getInstancia( );
+
+		void
+		insereErro( const int, const std::string );
+
+		void
+		salvaLog( const std::string );
+
+	protected:
+		LogErros( );
+
+		virtual
+		~LogErros( );
+
+	private:
+		static std::queue<std::string>
+		erros;
+};
+
+#endif /*LOGERROS_H_*/
