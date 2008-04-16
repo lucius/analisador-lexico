@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <queue>
 
 #include "./../includes/LogErros.h"
@@ -25,14 +26,14 @@ LogErros::getInstancia( )
 }
 
 void
-LogErros::insereErro( const int numeroLinha, const std::string erro )
+LogErros::insereErro( const unsigned int numeroLinha, const std::string erro )
 {
-	std::string
+	std::stringstream
 	linhaErro;
 
-	linhaErro = "[ " + linhaErro + " ] - " + erro;	
+	linhaErro << "[Linha " << numeroLinha << "] - " << erro;
 
-	LogErros::erros.push( linhaErro );
+	LogErros::erros.push( linhaErro.str() );
 }
 
 void

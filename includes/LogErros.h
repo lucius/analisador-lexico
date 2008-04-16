@@ -14,7 +14,7 @@ class LogErros
 		getInstancia( );
 
 		void
-		insereErro( const int, const std::string );
+		insereErro( const unsigned int, const std::string );
 
 		void
 		salvaLog( const std::string );
