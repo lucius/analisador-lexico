@@ -15,9 +15,6 @@ typedef struct
 	
 	unsigned int
 	linha;
-	
-	unsigned int
-	coluna;
 } StructToken;
 
 #endif /*STRUCTTOKEN_H_*/
