@@ -9,9 +9,7 @@ int
 main(int argc, char* argv[])
 {
 	AnalisadorLexico
-	analisador ( "../AutomatoFD/data/codigo.pas" );
-
-	std::cout << std::endl << std::endl; 
+	analisador ( "./data/codigo.pas" );
 
 	LogErros::getInstancia( ).salvaLog( "bogaFlame" );
 	return (EXIT_SUCCESS);

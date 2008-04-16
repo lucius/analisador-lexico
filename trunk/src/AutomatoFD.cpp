@@ -136,7 +136,7 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 		bufferToken.linha = this->numeroLinha;
 		bufferToken.coluna = 0;
 		
-		std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
+		//std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
 	
 		tokensClassificados.insert ( std::pair<const int, const StructToken> (this->numeroToken, bufferToken) );
 	
@@ -161,7 +161,7 @@ AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 		bufferToken.linha = this->numeroLinha;
 		bufferToken.coluna = 0;
 		
-		std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
+		//std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
 	
 		tokensClassificados.insert ( std::pair<const int, const StructToken> (this->numeroToken, bufferToken) );
 	
@@ -268,9 +268,8 @@ AutomatoFD::estadoS()
 													}
 													else
 													{
+														LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + (*this->codigoPascal.begin()).substr(0,1) + " :: " + "CARACTERE_INVALIDO" );
 														this->adicionaCaractereToken( );
-														std::cout << this->numeroLinha << ":: " << this->token << " :: @ " << "CARACTERE_INVALIDO" << std::endl;
-														LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + this->token + " :: @ " + "CARACTERE_INVALIDO" );
 														this->adicionaTokenArrayAssociativo( "CARACTERE_INVALIDO" );
 													}
 												}
@@ -308,7 +307,7 @@ AutomatoFD::estadoA( )
 			{
 				this->adicionaCaractereToken( );
 			}
-			LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + this->token + " :: @ " + "IDENTIFICADOR_INVALIDO" );
+			LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + this->token + " :: " + "IDENTIFICADOR_INVALIDO" );
 			this->adicionaTokenArrayAssociativo( "IDENTIFICADOR_INVALIDO" );
 		}
 		else
@@ -432,7 +431,7 @@ AutomatoFD::estadoH( )
 			{
 				this->adicionaCaractereToken( );
 			}
-			LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + this->token + " :: @ " + "IDENTIFICADOR_INVALIDO" );
+			LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + this->token + " :: " + "IDENTIFICADOR_INVALIDO" );
 			this->adicionaTokenArrayAssociativo( "IDENTIFICADOR_INVALIDO" );
 		}
 		else
