@@ -37,7 +37,7 @@ LogErros::insereErro( const unsigned int numeroLinha, const std::string erro )
 }
 
 void
-LogErros::salvaLog( const std::string caminho )
+LogErros::getLog( )
 {
 	while ( !LogErros::erros.empty() )
 	{
