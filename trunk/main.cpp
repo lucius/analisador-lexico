@@ -11,6 +11,6 @@ main(int argc, char* argv[])
 	AnalisadorLexico
 	analisador ( "./data/codigo.pas" );
 
-	LogErros::getInstancia( ).salvaLog( "bogaFlame" );
+	LogErros::getInstancia( ).getLog( );
 	return (EXIT_SUCCESS);
 }

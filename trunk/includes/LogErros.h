@@ -17,7 +17,7 @@ class LogErros
 		insereErro( const unsigned int, const std::string );
 
 		void
-		salvaLog( const std::string );
+		getLog( );
 
 	protected:
 		LogErros( );

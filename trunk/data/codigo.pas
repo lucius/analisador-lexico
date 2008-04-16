@@ -4,11 +4,11 @@ PROGRAM soma;
 
 (*Este é o teste numero 2 dos
  comentários * .98( *)
- #
- $
+
 VAR
-   x,y,a#4 : integer;
+   x,y,a41$ : integer;
 BEGIN
 	x := 2;
 	y := x + 3;
+	j := A43 / x;
 END.
