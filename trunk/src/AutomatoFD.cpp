@@ -1,10 +1,29 @@
+/***********************************************
+ * AutomatoFD.cpp                              *
+ *                                             *
+ * Implementacao dos metodos da classe         *
+ * AutomatoFD                                  *
+ *                                             *
+ * @author: Evandro Couto Mantese              *
+ * @author: Marcus Vinicius Ventura Bortolotti *
+ * @author: Rafael de Paula Herrera            *
+ *                                             *
+ ***********************************************/
+
+
+/*
+ * Includes do Sistema
+ */
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <list>
+#include <map>
 #include <regex.h>
 #include <string>
 
+/*
+ * Includes do Usuario
+ */
 #include "./../includes/AutomatoFD.h"
 #include "./../includes/ErrosExecucao.h"
 #include "./../includes/LogErros.h"
@@ -17,6 +36,15 @@
  *  Metodos Publicos  *
  **********************/
 
+/*
+ * Recebe por parametro uma lista contendo
+ * o codigo-fonte separado por linhas.
+ * 
+ * Limpa a string de buffer do Token
+ * 
+ * Inicia o contador das Linhas
+ * e o contador de Tokens
+ */
 AutomatoFD::AutomatoFD( std::list<std::string> codigoFonte )
 {
 	this->codigoPascal = codigoFonte;
@@ -28,6 +56,9 @@ AutomatoFD::AutomatoFD( std::list<std::string> codigoFonte )
 	this->estadoS( );
 }
 
+/*
+ * Retorna os Tokens classificados
+ */
 const std::map<int, StructToken>
 AutomatoFD::getSaidaAutomato( )
 {
@@ -50,11 +81,14 @@ AutomatoFD::~AutomatoFD( )
  *  Metodos Privados  *
  **********************/
 
+/*
+ * Valida uma expressao regular em uma string
+ */
 const unsigned short int
 AutomatoFD::validaCaractereREGEX( const char* stringExpressaoRegular, const char* linhaCodigo, std::string transicao )
 {
 	std::string
-	erroExpressaoRegular = "A variï¿½vel de expressao regular nao pode ser alocada: Transicao " + transicao;
+	erroExpressaoRegular = "A variavel de expressao regular nao pode ser alocada: Transicao " + transicao;
 
 	regex_t
 	expressaoRegular;
@@ -64,13 +98,25 @@ AutomatoFD::validaCaractereREGEX( const char* stringExpressaoRegular, const char
 
 	if ( !this->codigoPascal.empty() )
 	{
+		/*
+		 * Tenta alocar a variavel de expressao regular
+		 * Se ocorre algum erro, encerra a execucao
+		 */
 		if ( regcomp(&expressaoRegular, stringExpressaoRegular, REG_EXTENDED|REG_ICASE|REG_NOSUB) )	throw ( new ErrosExecucao(erroExpressaoRegular) );
 		status = regexec(&expressaoRegular, linhaCodigo, 0, (regmatch_t *)NULL, 0);
 		regfree( &expressaoRegular );
 	}
+	/*
+	 * Retorna:
+	 * 			0 - se nao encontrou ocorrencia da expressao na string
+	 * 			1 - se encontrou no mínimo uma ocorrencia
+	 */
 	return ( !status );
 }
 
+/*
+ * Concatena um caractere no fim da string
+ */
 void
 AutomatoFD::adicionaCaractereToken( )
 {
@@ -82,9 +128,17 @@ AutomatoFD::adicionaCaractereToken( )
 	}
 	else
 	{
+		/*
+		 * Concatena um caractere no atributo token
+		 * Remove um caractere do inicio da linha de codigo
+		 */
 		this->token.push_back( (*this->codigoPascal.begin()).at(0) );
 		*this->codigoPascal.begin( ) = (*this->codigoPascal.begin()).substr(1);
 
+		/*
+		 * Se a linha fica vazia, remove-a da
+		 * lista de linhas
+		 */
 		if ( (*this->codigoPascal.begin()).empty() )
 		{
 			this->codigoPascal.pop_front( );
@@ -94,6 +148,9 @@ AutomatoFD::adicionaCaractereToken( )
 	}
 }
 
+/*
+ * Metodo utilizado para a leitura de comentarios
+ */
 void
 AutomatoFD::adicionaCaractereComentario( )
 {
@@ -115,6 +172,12 @@ AutomatoFD::adicionaCaractereComentario( )
 	}
 }
 
+/*
+ * Busca a classificacao de um Token
+ * na Tabela de Simbolos
+ * 
+ * Adiciona o token no Array de Tokens
+ */
 void
 AutomatoFD::adicionaTokenArrayAssociativo( )
 {
@@ -142,10 +205,19 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 
 		++this->numeroToken;
 
+		/*
+		 * Limpa a linha de buffer do Token
+		 */
 		this->token.clear();
 	}
 }
 
+/*
+ * Recebe a classificacao de um Token
+ * nao-padrao
+ * 
+ * Adiciona o token no Array de Tokens
+ */
 void
 AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 {
@@ -173,15 +245,16 @@ AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 
 
 /*********************************************
- *											 *
- *  				Estados  				 *
- *					  do					 *
- *					Automato 				 *
- * 											 *
+ *********************************************
+ **  				Estados  				**
+ **					  do					**
+ **					Automato 				**
+ *********************************************
  *********************************************/
 
-
-
+/*
+ * Estado Inicial do Automado Finito e Deterministico
+ */
 void
 AutomatoFD::estadoS()
 {
@@ -266,6 +339,11 @@ AutomatoFD::estadoS()
 													}
 													else
 													{
+														/*
+														 * Se nao reconhecer um caractere
+														 * adiciona um erro no log
+														 * e um token invalido
+														 */
 														LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + (*this->codigoPascal.begin()).substr(0,1) + " :: " + "CARACTERE_INVALIDO" );
 														this->adicionaCaractereToken( );
 														this->adicionaTokenArrayAssociativo( "CARACTERE_INVALIDO" );
@@ -281,6 +359,10 @@ AutomatoFD::estadoS()
 				}
 			}
 		}
+		/*
+		 * Se algum erro ocorrer na execucao deste trecho
+		 * de codigo, exibe o erro e encerra a execucao
+		 */
 		catch ( ErrosExecucao* erro )
 		{
 			std::cout << erro->getErro( ) << std::endl;
@@ -288,6 +370,9 @@ AutomatoFD::estadoS()
 	}
 }
 
+/*
+ * Valida Identificadores
+ */
 void
 AutomatoFD::estadoA( )
 {
@@ -412,6 +497,10 @@ AutomatoFD::estadoG( )
 	this->adicionaTokenArrayAssociativo( );
 }
 
+/*
+ * Valida Numeros válidos
+ * e Identificadores Invalidos
+ */
 void
 AutomatoFD::estadoH( )
 {

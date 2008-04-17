@@ -1,14 +1,43 @@
+/***********************************************
+ * AutomatoFD.h                                *
+ *                                             *
+ * Definicao da Classe                         *
+ * AutomatoFD                                  *
+ *                                             *
+ * @author: Evandro Couto Mantese              *
+ * @author: Marcus Vinicius Ventura Bortolotti *
+ * @author: Rafael de Paula Herrera            *
+ *                                             *
+ ***********************************************/
+
+
+
 #ifndef AUTOMATOFD_H_
 #define AUTOMATOFD_H_
 
+/*
+ * Includes do Sistema
+ */
 #include <iostream>
 #include <list>
 #include <string>
 
+/*
+ * Includes do Usuario
+ */
 #include "./../includes/StructToken.h"
 
 
 
+/*
+ * Classe que implementa o Automato Finito e Deterministico
+ * utilizado para a varredura do codigo-fonte e classificacao
+ * dos tokens
+ * 
+ * A cada estado foi designado um metodo especifico de acordo
+ * com a especificacao realizada anteriormente.
+ * (Vide layout do Automato anexo a este trabalho)
+ */
 class AutomatoFD
 {
 	public:
@@ -17,9 +46,9 @@ class AutomatoFD
 		const std::map<int, StructToken>
 		getSaidaAutomato( );
 
-	private:
-		virtual
 		~AutomatoFD( );
+	private:
+
 
 	protected:
 		std::list<std::string>

@@ -1,12 +1,35 @@
+/***********************************************
+ * LogErros.cpp                                *
+ *                                             *
+ * Implementacao dos metodos da classe         *
+ * LogErros                                    *
+ *                                             *
+ * @author: Evandro Couto Mantese              *
+ * @author: Marcus Vinicius Ventura Bortolotti *
+ * @author: Rafael de Paula Herrera            *
+ *                                             *
+ ***********************************************/
+
+
+/*
+ * Includes do Sistema
+ */
 #include <iostream>
+#include <queue>
 #include <sstream>
 #include <string>
-#include <queue>
 
+/*
+ * Includes do Usuario
+ */
 #include "./../includes/LogErros.h"
 
 
 
+/*
+ * inicializa o atributo fila
+ * do log de erros
+ */
 std::queue<std::string>
 LogErros::erros;
 
@@ -16,6 +39,9 @@ LogErros::erros;
  *  Metodos Publicos  *
  **********************/
 
+/*
+ * Retorna a instancia do Log de Erros
+ */
 LogErros&
 LogErros::getInstancia( )
 {
@@ -25,17 +51,30 @@ LogErros::getInstancia( )
 	return log;
 }
 
+/*
+ * Inclusao de Erros
+ */
 void
 LogErros::insereErro( const unsigned int numeroLinha, const std::string erro )
 {
 	std::stringstream
 	linhaErro;
 
+	/*
+	 * Formata o erro
+	 */
 	linhaErro << "[Linha " << numeroLinha << "] - " << erro;
 
+	/*
+	 * Enfileira o erro
+	 */
 	LogErros::erros.push( linhaErro.str() );
 }
 
+/*
+ * Retorna os erros e retira-os da fila
+ * se ela nao estiver vazia
+ */
 void
 LogErros::getLog( )
 {
@@ -72,3 +111,8 @@ LogErros::~LogErros( )
 /**********************
  *  Metodos Privados  *
  **********************/
+
+/*
+ * Nao existem metodos privados
+ * nesta classe
+ */

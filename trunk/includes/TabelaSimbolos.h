@@ -1,6 +1,23 @@
+/***********************************************
+ * TabelaSimbolos.h                            *
+ *                                             *
+ * Definicao da Classe                         *
+ * TabelaSimbolos                              *
+ *                                             *
+ * @author: Evandro Couto Mantese              *
+ * @author: Marcus Vinicius Ventura Bortolotti *
+ * @author: Rafael de Paula Herrera            *
+ *                                             *
+ ***********************************************/
+
+
+
 #ifndef TABELADESIMBOLOS_H_
 #define TABELADESIMBOLOS_H_
 
+/*
+ * Includes do Sistema
+ */
 #include <fstream>
 #include <iostream>
 #include <list>
@@ -8,10 +25,18 @@
 #include <string>
 #include <vector>
 
+/*
+ * Includes do Usuario
+ */
 #include "StructSimbolo.h"
 
 
 
+/*
+ * Classe de Armazenamento das classificacoes gerais dos tokens
+ * 
+ * Design Pattern Utilizado: Singleton
+ */
 class TabelaSimbolos
 {
 	public:
@@ -23,6 +48,9 @@ class TabelaSimbolos
 
 	protected:
 		TabelaSimbolos( );
+
+		TabelaSimbolos&
+        operator=( TabelaSimbolos const& );
 
 		virtual
 		~TabelaSimbolos( );
@@ -38,7 +66,7 @@ class TabelaSimbolos
 		carregaArquivoConfiguracao( );
 
 		void
-		criaTabela( );
+		criaTabelaTokens( );
 };
 
 #endif /*TABELADESIMBOLOS_H_*/
