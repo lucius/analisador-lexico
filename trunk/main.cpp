@@ -1,5 +1,5 @@
 /***********************************************
- * Main.cpp                                    *
+ * main.cpp                                    *
  *                                             *
  * @author: Evandro Couto Mantese              *
  * @author: Marcus Vinicius Ventura Bortolotti *
