@@ -33,13 +33,12 @@ class TabelaSimbolos
 
 		std::map<std::string, std::string>
 		simbolos;
-		
+
 		const std::vector<std::string>
 		carregaArquivoConfiguracao( );
-		
+
 		void
 		criaTabela( );
-
 };
 
 #endif /*TABELADESIMBOLOS_H_*/

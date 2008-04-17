@@ -15,7 +15,7 @@ TabelaSimbolos::instanciaTabelaSimbolos = 0;
 
 
 /**********************
- *  Métodos Públicos  *
+ *  Metodos Publicos  *
  **********************/
 
 TabelaSimbolos*
@@ -48,7 +48,7 @@ TabelaSimbolos::procuraSimbolo( std::string tokenProcurado )
 }
 
 /**********************
- * Métodos Protegidos *
+ * Metodos Protegidos *
  **********************/
 
 TabelaSimbolos::TabelaSimbolos( )
@@ -61,7 +61,7 @@ TabelaSimbolos::~TabelaSimbolos( )
 }
 
 /**********************
- *  Métodos Privados  *
+ *  Metodos Privados  *
  **********************/
 
 const std::vector<std::string>
@@ -76,7 +76,7 @@ TabelaSimbolos::carregaArquivoConfiguracao( )
 	std::vector<std::string>
 	primeiroParser;
 
-	if ( !arquivoConfiguracao.is_open() ) throw ( "Fuma um cigarro! configurationFile não pode ser aberto!! Sucesso;;" );
+	if ( !arquivoConfiguracao.is_open() ) throw ( "Fuma um cigarro! configurationFile nï¿½o pode ser aberto!! Sucesso;;" );
 	
 	arquivoConfiguracao.seekg( 0, std::ios::beg );
 	

@@ -6,7 +6,7 @@ PROGRAM soma;
  comentários * .98( *)
 
 VAR
-   x,y,a41$ : integer;
+   x,y,a_4,43AB : integer;
 BEGIN
 	x := 2;
 	y := x + 3;

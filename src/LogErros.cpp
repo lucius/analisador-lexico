@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
 #include <queue>
 
 #include "./../includes/LogErros.h"
@@ -9,11 +9,11 @@
 
 std::queue<std::string>
 LogErros::erros;
-		
-		
+
+
 
 /**********************
- *  Métodos Publicos  *
+ *  Metodos Publicos  *
  **********************/
 
 LogErros&
@@ -39,17 +39,24 @@ LogErros::insereErro( const unsigned int numeroLinha, const std::string erro )
 void
 LogErros::getLog( )
 {
-	while ( !LogErros::erros.empty() )
+	if ( !LogErros::erros.empty() )
 	{
-		std::cout << LogErros::erros.front() << std::endl;
-		LogErros::erros.pop( );
+		while ( !LogErros::erros.empty() )
+		{
+			std::cout << LogErros::erros.front() << std::endl;
+			LogErros::erros.pop( );
+		}
+	}
+	else
+	{
+		std::cout << "Nao foram encontrados erros..." << std::endl << std::endl;
 	}
 }
 
 
 
 /**********************
- * Métodos Protegidos *
+ * Metodos Protegidos *
  **********************/
 
 LogErros::LogErros( )
@@ -59,6 +66,9 @@ LogErros::LogErros( )
 LogErros::~LogErros( )
 {
 }
+
+
+
 /**********************
- *  Métodos Privados  *
+ *  Metodos Privados  *
  **********************/
