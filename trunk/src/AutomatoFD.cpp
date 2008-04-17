@@ -14,7 +14,7 @@
 
 
 /**********************
- *  Métodos Publicos  *
+ *  Metodos Publicos  *
  **********************/
 
 AutomatoFD::AutomatoFD( std::list<std::string> codigoFonte )
@@ -37,7 +37,7 @@ AutomatoFD::getSaidaAutomato( )
 
 
 /**********************
- * Métodos Protegidos *
+ * Metodos Protegidos *
  **********************/
 
 AutomatoFD::~AutomatoFD( )
@@ -47,14 +47,14 @@ AutomatoFD::~AutomatoFD( )
 
 
 /**********************
- *  Métodos Privados  *
+ *  Metodos Privados  *
  **********************/
 
 const unsigned short int
 AutomatoFD::validaCaractereREGEX( const char* stringExpressaoRegular, const char* linhaCodigo, std::string transicao )
 {
 	std::string
-	erroExpressaoRegular = "A variável de expressao regular nao pode ser alocada: Transicao " + transicao;
+	erroExpressaoRegular = "A variï¿½vel de expressao regular nao pode ser alocada: Transicao " + transicao;
 
 	regex_t
 	expressaoRegular;
@@ -84,7 +84,7 @@ AutomatoFD::adicionaCaractereToken( )
 	{
 		this->token.push_back( (*this->codigoPascal.begin()).at(0) );
 		*this->codigoPascal.begin( ) = (*this->codigoPascal.begin()).substr(1);
-	
+
 		if ( (*this->codigoPascal.begin()).empty() )
 		{
 			this->codigoPascal.pop_front( );
@@ -120,11 +120,11 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 {
 	StructToken
 	bufferToken;
-	
+
 	if ( !this->token.empty() )
 	{
 		bufferToken.token = this->token;
-	
+
 		if ( this->validaCaractereREGEX("^[{]|\\(\\*", this->token.c_str(), "SD") )
 		{
 			bufferToken.classificacao = "COMENTARIO";
@@ -133,15 +133,15 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 		{
 			bufferToken.classificacao = TabelaSimbolos::getInstancia()->procuraSimbolo( this->token );
 		}
-	
+
 		bufferToken.linha = this->numeroLinha;
-		
+
 		//std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
-	
+
 		tokensClassificados.insert ( std::pair<const int, const StructToken> (this->numeroToken, bufferToken) );
-	
+
 		++this->numeroToken;
-	
+
 		this->token.clear();
 	}
 }
@@ -153,19 +153,19 @@ AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 	bufferToken;
 
 	if ( !this->token.empty() )
-	{	
+	{
 		bufferToken.token = this->token;
-	
+
 		bufferToken.classificacao = _classificacao;
-	
+
 		bufferToken.linha = this->numeroLinha;
-		
+
 		//std::cout << bufferToken.token << " @ " << bufferToken.classificacao << std::endl;
-	
+
 		tokensClassificados.insert ( std::pair<const int, const StructToken> (this->numeroToken, bufferToken) );
-	
+
 		++this->numeroToken;
-	
+
 		this->token.clear();
 	}
 }
@@ -208,7 +208,6 @@ AutomatoFD::estadoS()
 					{
 						this->estadoC( );
 					}
-					
 					else
 					{
 						/* Quarta Transicao */

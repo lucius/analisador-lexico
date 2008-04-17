@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "./includes/AnalisadorLexico.h"
+#include "./includes/ErrosExecucao.h"
 #include "./includes/LogErros.h"
 
 
@@ -11,13 +12,22 @@ main(int argc, char* argv[])
 	AnalisadorLexico*
 	analisador;
 
-	if ( argv[2] != NULL )
+	try
 	{
-		analisador = new AnalisadorLexico( argv[1], argv[2] );
+		if ( argv[1] == NULL ) throw ( new ErrosExecucao("Voce Precisa Definir qual arquivo sera compilado") );
+
+		else if ( argv[2] )
+		{
+			analisador = new AnalisadorLexico( argv[1], argv[2] );
+		}
+		else
+		{
+			analisador = new AnalisadorLexico( argv[1] );
+		}
 	}
-	else
+	catch ( ErrosExecucao* erro )
 	{
-		analisador = new AnalisadorLexico( argv[1] );
+		std::cout << erro->getErro( );
 	}
 
 	LogErros::getInstancia( ).getLog( );
