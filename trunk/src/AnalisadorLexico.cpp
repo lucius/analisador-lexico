@@ -231,7 +231,7 @@ AnalisadorLexico::salvaLog( const std::string caminhoLog )
 	 */
 	for( iteradorLog = this->saidaAnalisadorLexico.begin(); iteradorLog != this->saidaAnalisadorLexico.end(); ++iteradorLog )
 	{
-		buffer[ contadorBuffer ] << '[' << iteradorLog->first << "] [" << iteradorLog->second.linha << "] [" << iteradorLog->second.token << "] [" << iteradorLog->second.classificacao << ']';
+		buffer[ contadorBuffer ] << '[' << iteradorLog->first << "] [" << iteradorLog->second.linha << "] [" << iteradorLog->second.token << "] [" << iteradorLog->second.classificacao << ']' << std::endl;
 
 		bufferString = buffer[contadorBuffer].str();
 
