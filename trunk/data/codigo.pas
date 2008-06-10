@@ -1,7 +1,9 @@
 PROGRAM soma;
 
+VAR ball: integer;
+
 BEGIN
 {bogaFire}
-(* boga
-Flame * *)
+(*bogaFlame **)
+	ball := 1;
 END.
