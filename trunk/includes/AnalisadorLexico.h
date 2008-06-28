@@ -42,6 +42,9 @@ class AnalisadorLexico
 
 		AnalisadorLexico( const std::string );
 
+		std::map<int, StructToken>
+		getMapAnalisadorLexico( );
+
 	protected:
 		virtual
 		~AnalisadorLexico( );

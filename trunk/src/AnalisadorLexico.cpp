@@ -102,6 +102,11 @@ AnalisadorLexico::~AnalisadorLexico( )
 	delete this->automato;
 }
 
+std::map<int, StructToken>
+AnalisadorLexico::getMapAnalisadorLexico( )
+{
+	return this->saidaAnalisadorLexico;
+}
 
 
 /**********************
@@ -143,14 +148,14 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 	/*
 	 * Aloca a variavel de expressao regular
 	 * Se o formato nao estiver correto, encerra a execucao
-	 * Desaloca a variavel de expressao regular 
+	 * Desaloca a variavel de expressao regular
 	 */
 	if ( regcomp(&expressaoRegular, ".pas$", REG_EXTENDED|REG_ICASE|REG_NOSUB) )	throw ( new ErrosExecucao("A expressao regular nao pode ser alocada") );
 
 	if ( regexec(&expressaoRegular, caminho.c_str(), 0, (regmatch_t *)NULL, 0) ) throw ( new ErrosExecucao("O formato do arquivo nao e valido...") );
 
 	regfree( &expressaoRegular );
-	
+
 	/*
 	 * Abre o arquivo do código-fonte
 	 * Se houver algum problema na abertura, encerra a execucao
@@ -166,7 +171,7 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 
 	/*
 	 * Limpa o buffer da linha de Código
-	 */ 
+	 */
 	bufferLinhaCodigo.clear( );
 
 	/*
@@ -236,7 +241,7 @@ AnalisadorLexico::salvaLog( const std::string caminhoLog )
 		bufferString = buffer[contadorBuffer].str();
 
 		arquivoLog.write( bufferString.c_str(), bufferString.size() );
-		
+
 		++contadorBuffer;
 	}
 	arquivoLog.close( );
@@ -260,9 +265,9 @@ AnalisadorLexico::ImprimeLog( )
 	 */
 	for( iteradorLog = this->saidaAnalisadorLexico.begin(); iteradorLog != this->saidaAnalisadorLexico.end(); ++iteradorLog )
 	{
-		buffer[ contadorBuffer ] << '[' << iteradorLog->first << "] [" << iteradorLog->second.linha << "] [" << iteradorLog->second.token << "] [" << iteradorLog->second.classificacao << ']'; 
+		buffer[ contadorBuffer ] << '[' << iteradorLog->first << "] [" << iteradorLog->second.linha << "] [" << iteradorLog->second.token << "] [" << iteradorLog->second.classificacao << ']';
 		std::cout << buffer[ contadorBuffer ].str( ) << std::endl;
-		
+
 		++contadorBuffer;
 	}
 }
