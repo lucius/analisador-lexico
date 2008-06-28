@@ -39,9 +39,9 @@
 /*
  * Recebe por parametro uma lista contendo
  * o codigo-fonte separado por linhas.
- * 
+ *
  * Limpa a string de buffer do Token
- * 
+ *
  * Inicia o contador das Linhas
  * e o contador de Tokens
  */
@@ -163,7 +163,7 @@ AutomatoFD::adicionaCaractereComentario( )
 	{
 		this->token.push_back( (*this->codigoPascal.begin()).at(0) );
 		*this->codigoPascal.begin( ) = (*this->codigoPascal.begin()).substr(1);
-	
+
 		if ( (*this->codigoPascal.begin()).empty() )
 		{
 			this->codigoPascal.pop_front( );
@@ -175,7 +175,7 @@ AutomatoFD::adicionaCaractereComentario( )
 /*
  * Busca a classificacao de um Token
  * na Tabela de Simbolos
- * 
+ *
  * Adiciona o token no Array de Tokens
  */
 void
@@ -215,7 +215,7 @@ AutomatoFD::adicionaTokenArrayAssociativo( )
 /*
  * Recebe a classificacao de um Token
  * nao-padrao
- * 
+ *
  * Adiciona o token no Array de Tokens
  */
 void
@@ -316,7 +316,7 @@ AutomatoFD::estadoS()
 										{
 											this->estadoH( );
 										}
-	
+
 										else
 										{
 											/* Nona Transicao */
@@ -384,9 +384,9 @@ AutomatoFD::estadoA( )
 		{
 			this->estadoA( );
 		}
-		else if( !this->validaCaractereREGEX("^[ |~|&|||.|,|:|;|+|=|>|<|\\(|\\)|*|/|-]|^<=|^>=|^<>|^or|^and|^:=", (*this->codigoPascal.begin()).c_str(), "AA") )
+		else if( !this->validaCaractereREGEX("^[ |~|&|||.|,|:|;|+|=|>|<|\\(|\\)|*|/|-]", (*this->codigoPascal.begin()).c_str(), "AA") )
 		{
-			while( !this->validaCaractereREGEX("^[ |~|&|||.|,|:|;|+|=|>|<|\\(|\\)|*|/|-]|^<=|^>=|^<>|^or|^and|^:=", (*this->codigoPascal.begin()).c_str(), "AA") )
+			while( !this->validaCaractereREGEX("^[ |~|&|||.|,|:|;|+|=|>|<|\\(|\\)|*|/|-]", (*this->codigoPascal.begin()).c_str(), "AA") )
 			{
 				this->adicionaCaractereToken( );
 			}
@@ -464,7 +464,7 @@ AutomatoFD::estadoE( )
 	{
 		this->adicionaCaractereComentario( );
 	}
-	
+
 	this->estadoL( );
 }
 
@@ -512,9 +512,9 @@ AutomatoFD::estadoH( )
 		{
 			this->estadoH( );
 		}
-		else if( !this->validaCaractereREGEX("^[ |;|+|=|>|<|*|/|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "AA") )
+		else if( !this->validaCaractereREGEX("^[ |;|+|=|>|<|*|/|,|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "AA") )
 		{
-			while( !this->validaCaractereREGEX("^[ |;|+|=|>|<|*|/|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "AA") )
+			while( !this->validaCaractereREGEX("^[ |;|+|=|>|<|*|/|,|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "AA") )
 			{
 				this->adicionaCaractereToken( );
 			}
