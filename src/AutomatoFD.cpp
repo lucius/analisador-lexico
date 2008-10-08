@@ -14,6 +14,7 @@
 /*
  * Includes do Sistema
  */
+#include <assert.h>
 #include <fstream>
 #include <iostream>
 #include <list>
@@ -103,6 +104,7 @@ AutomatoFD::validaCaractereREGEX( const char* stringExpressaoRegular, const char
 		 * Se ocorre algum erro, encerra a execucao
 		 */
 		if ( regcomp(&expressaoRegular, stringExpressaoRegular, REG_EXTENDED|REG_ICASE|REG_NOSUB) )	throw ( new ErrosExecucao(erroExpressaoRegular) );
+
 		status = regexec(&expressaoRegular, linhaCodigo, 0, (regmatch_t *)NULL, 0);
 		regfree( &expressaoRegular );
 	}
@@ -120,7 +122,7 @@ AutomatoFD::validaCaractereREGEX( const char* stringExpressaoRegular, const char
 void
 AutomatoFD::adicionaCaractereToken( )
 {
-	if ( (*this->codigoPascal.begin()).empty() )
+	if ( this->codigoPascal.begin()->empty() )
 	{
 		this->codigoPascal.pop_front( );
 		++this->numeroLinha;
@@ -133,7 +135,7 @@ AutomatoFD::adicionaCaractereToken( )
 		 * Remove um caractere do inicio da linha de codigo
 		 */
 		this->token.push_back( (*this->codigoPascal.begin()).at(0) );
-		*this->codigoPascal.begin( ) = (*this->codigoPascal.begin()).substr(1);
+		*this->codigoPascal.begin( ) = this->codigoPascal.begin()->substr(1);
 
 		/*
 		 * Se a linha fica vazia, remove-a da
@@ -263,56 +265,56 @@ AutomatoFD::estadoS()
 		try
 		{
 			/* Primeira Transicao */
-			if ( this->validaCaractereREGEX("^[A-Z]", (*this->codigoPascal.begin()).c_str(), "SA") )
+			if ( this->validaCaractereREGEX("^[A-Z]", this->codigoPascal.begin()->c_str(), "SA") )
 			{
 				this->estadoA( );
 			}
 			else
 			{
 				/* Segunda Transicao */
-				if ( this->validaCaractereREGEX("^[/|+|*|~|&|||=|;|.|,|-]", (*this->codigoPascal.begin()).c_str(), "SB") )
+				if ( this->validaCaractereREGEX("^[/|+|*|~|&|||=|;|.|,|-]", this->codigoPascal.begin()->c_str(), "SB") )
 				{
 					this->estadoB( );
 				}
 				else
 				{
 					/* Terceira Transicao */
-					if ( this->validaCaractereREGEX("^<", (*this->codigoPascal.begin()).c_str(), "SC") )
+					if ( this->validaCaractereREGEX("^<", this->codigoPascal.begin()->c_str(), "SC") )
 					{
 						this->estadoC( );
 					}
 					else
 					{
 						/* Quarta Transicao */
-						if ( this->validaCaractereREGEX("^>", (*this->codigoPascal.begin()).c_str(), "SD") )
+						if ( this->validaCaractereREGEX("^>", this->codigoPascal.begin()->c_str(), "SD") )
 						{
 							this->estadoD( );
 						}
 						else
 						{
 							/* Quinta Transicao */
-							if ( this->validaCaractereREGEX("^[{]", (*this->codigoPascal.begin()).c_str(), "SE") )
+							if ( this->validaCaractereREGEX("^[{]", this->codigoPascal.begin()->c_str(), "SE") )
 							{
 								this->estadoE( );
 							}
 							else
 							{
 								/* Sexta Transicao */
-								if ( this->validaCaractereREGEX("^\\(", (*this->codigoPascal.begin()).c_str(), "SF") )
+								if ( this->validaCaractereREGEX("^\\(", this->codigoPascal.begin()->c_str(), "SF") )
 								{
 									this->estadoF( );
 								}
 								else
 								{
 									/* Setima Transicao */
-									if ( this->validaCaractereREGEX("^\\)", (*this->codigoPascal.begin()).c_str(), "SG") )
+									if ( this->validaCaractereREGEX("^\\)", this->codigoPascal.begin()->c_str(), "SG") )
 									{
 										this->estadoG( );
 									}
 									else
 									{
 										/* Oitava Transicao */
-										if ( this->validaCaractereREGEX("^[0-9]", (*this->codigoPascal.begin()).c_str(), "SH") )
+										if ( this->validaCaractereREGEX("^[0-9]", this->codigoPascal.begin()->c_str(), "SH") )
 										{
 											this->estadoH( );
 										}
@@ -320,13 +322,13 @@ AutomatoFD::estadoS()
 										else
 										{
 											/* Nona Transicao */
-											if ( this->validaCaractereREGEX("^:", (*this->codigoPascal.begin()).c_str(), "SI") )
+											if ( this->validaCaractereREGEX("^:", this->codigoPascal.begin()->c_str(), "SI") )
 											{
 												this->estadoI( );
 											}
 											else
 											{
-												if ( this->validaCaractereREGEX("^[ |	]", (*this->codigoPascal.begin()).c_str(), "ESPACO_BRANCO") )
+												if ( this->validaCaractereREGEX("^[ |	]", this->codigoPascal.begin()->c_str(), "ESPACO_BRANCO") )
 												{
 													*this->codigoPascal.begin( ) = (*this->codigoPascal.begin()).substr(1);
 												}

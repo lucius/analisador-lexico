@@ -23,6 +23,7 @@
 /*
  * Includes do Usuario
  */
+#include "./../includes/ErrosExecucao.h"
 #include "./../includes/StructSimbolo.h"
 #include "./../includes/TabelaSimbolos.h"
 
@@ -30,7 +31,7 @@
 
 /*
  * Inicializa o atributo
- * da instancia da Tabela de Simbolos 
+ * da instancia da Tabela de Simbolos
  */
 TabelaSimbolos*
 TabelaSimbolos::instanciaTabelaSimbolos = 0;
@@ -44,14 +45,14 @@ TabelaSimbolos::instanciaTabelaSimbolos = 0;
 /*
  * Se a classe nao foi instanciada nenhuma vez,
  * ela e instanciada
- * 
+ *
  * Retorna a intancia
  * da propria classe
  */
 TabelaSimbolos*
 TabelaSimbolos::getInstancia( )
 {
-	if ( TabelaSimbolos::instanciaTabelaSimbolos == 0)
+	if ( TabelaSimbolos::instanciaTabelaSimbolos == NULL)
 	{
 		TabelaSimbolos::instanciaTabelaSimbolos = new TabelaSimbolos( );
     }
@@ -60,9 +61,9 @@ TabelaSimbolos::getInstancia( )
 }
 
 /*
- * Recebe o Token Procurado e retorna, 
+ * Recebe o Token Procurado e retorna,
  * se encontrar, sua classificacao.
- * 
+ *
  * Senao retorna "IDENTIFICADOR"
  * como padrão.
  */
@@ -73,7 +74,7 @@ TabelaSimbolos::procuraSimbolo( std::string tokenProcurado )
 	iteradorBusca;
 
 	iteradorBusca = TabelaSimbolos::instanciaTabelaSimbolos->simbolos.find( tokenProcurado );
-	
+
 	if ( iteradorBusca != TabelaSimbolos::instanciaTabelaSimbolos->simbolos.end() )
 	{
 		return iteradorBusca->second;
@@ -100,7 +101,7 @@ TabelaSimbolos::TabelaSimbolos( )
 
 TabelaSimbolos::~TabelaSimbolos( )
 {
-	
+
 }
 
 
@@ -116,8 +117,8 @@ const std::vector<std::string>
 TabelaSimbolos::carregaArquivoConfiguracao( )
 {
 	std::ifstream
-	arquivoConfiguracao ( "./data/pascal.conf", std::ifstream::in );
-	
+	arquivoConfiguracao ( "../data/pascal.conf", std::ifstream::in );
+
 	std::string
 	_buffer;
 
@@ -128,8 +129,7 @@ TabelaSimbolos::carregaArquivoConfiguracao( )
 	 * Tenta abrir o arquivo de Configuracoes.
 	 * Se nao for possivel finaliza a execucao.
 	 */
-	if ( !arquivoConfiguracao.is_open() ) throw ( "O arquivo de Configuracoes nao pode ser aberto! Sucesso;;" );
-
+	if ( !arquivoConfiguracao.good() ) throw ( new ErrosExecucao("O arquivo de Configuracoes nao pode ser aberto! Sucesso;;") );
 	/*
 	 * Move o ponteiro do arquivo
 	 * para o inicio
@@ -166,19 +166,18 @@ TabelaSimbolos::criaTabelaTokens( )
 {
 	size_t
 	posicao;
-	
+
 	std::vector<std::string>::iterator
 	iteradorPrimeiroParser;
 
 	const std::string
 	caracterProcurado = "@";
-	
+
 	std::string
 	tipoTemporario;
-	
+
 	std::vector<std::string>
 	PrimeiroParser;
-	
 	PrimeiroParser = this->carregaArquivoConfiguracao( );
 
 	/*
