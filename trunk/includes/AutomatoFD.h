@@ -33,7 +33,7 @@
  * Classe que implementa o Automato Finito e Deterministico
  * utilizado para a varredura do codigo-fonte e classificacao
  * dos tokens
- * 
+ *
  * A cada estado foi designado um metodo especifico de acordo
  * com a especificacao realizada anteriormente.
  * (Vide layout do Automato anexo a este trabalho)
@@ -119,16 +119,16 @@ class AutomatoFD
 
 		void
 		estadoL( );
-		
+
 		void
 		estadoM( );
-		
+
 		void
 		estadoN( );
 
 		void
 		estadoO( );
-		
+
 		void
 		estadoP( );
 };

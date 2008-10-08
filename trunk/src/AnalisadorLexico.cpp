@@ -136,11 +136,14 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 	std::string
 	bufferLinhaCodigo;
 
+	size_t
+	found;
+
 	int
 	(*pf) (int) = tolower;
 
 	char
-	bufferCaractere;
+	bufferCaractere[1024];
 
 	regex_t
 	expressaoRegular;
@@ -179,25 +182,28 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 	 * Elimina os tab's
 	 * Separa linha-a-linha e armazena em uma lista de strings
 	 */
-	while ( !arquivoCodigo.eof() )
+	while ( arquivoCodigo.good() )
 	{
-		arquivoCodigo.get( bufferCaractere );
+		arquivoCodigo.getline( bufferCaractere, 1024 );
+		bufferLinhaCodigo = bufferCaractere;
+//		std::cout << bufferLinhaCodigo << " - " << bufferLinhaCodigo.size() << std::endl;
 
-		if ( (bufferCaractere != '\n') && (!arquivoCodigo.eof()) )
+		found = bufferLinhaCodigo.find_first_of( '\t' );
+		while( found != std::string::npos )
 		{
-			if ( bufferCaractere != '\t' )
-			{
-				bufferLinhaCodigo.push_back( bufferCaractere );
-			}
+			bufferLinhaCodigo.erase( found, 1 );
+			found = bufferLinhaCodigo.find_first_of( '\t' );
 		}
-		else
-		{
-			std::transform(bufferLinhaCodigo.begin( ), bufferLinhaCodigo.end( ), bufferLinhaCodigo.begin( ), pf);
 
+		std::transform(bufferLinhaCodigo.begin( ), bufferLinhaCodigo.end( ), bufferLinhaCodigo.begin( ), pf);
+
+		if ( bufferLinhaCodigo.size() != 0 )
+		{
 			this->codigoFonte.push_back( bufferLinhaCodigo );
-
-			bufferLinhaCodigo.clear( );
+//			std::cout << *this->codigoFonte.rbegin() << " - " << this->codigoFonte.rbegin()->size() << std::endl;
 		}
+		bufferLinhaCodigo.clear();
+
 	}
 	/*
 	 * Fecha o arquivo do codigo-fonte
